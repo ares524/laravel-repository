@@ -2,10 +2,10 @@
 
 namespace DummyRootNamespaceDatabase;
 
-use DummyRootNamespaceDatabase\AbstractRepository;
+use Leantony\Database\AbstractRepository as Repository;
 use App\Models\DummyFullModelClass;
 
-class DummyClass extends AbstractRepository
+class DummyClass extends Repository
 {
 
     /**
