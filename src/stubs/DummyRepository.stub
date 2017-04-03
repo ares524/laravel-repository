@@ -1,0 +1,23 @@
+<?php
+
+namespace DummyRootNamespaceDatabase;
+
+use DummyRootNamespaceDatabase\AbstractRepository;
+use App\Models\DummyFullModelClass;
+
+class DummyClass extends AbstractRepository
+{
+
+    /**
+     * Set the model instance
+     * ```php
+     * public function model(){
+     *    return SomeModel::class;
+     * }
+     * ```
+     */
+    public function model()
+    {
+        return DummyFullModelClass::class;
+    }
+}
