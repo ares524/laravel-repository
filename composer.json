@@ -22,7 +22,8 @@
       "Leantony\\Database\\": "src/",
       "Leantony\\Database\\Commands\\": "src/commands",
       "Leantony\\Database\\Extra\\": "src/extra",
-      "Leantony\\Database\\Providers\\": "src/providers"
+      "Leantony\\Database\\Providers\\": "src/providers",
+      "Leantony\\Database\\Scopes\\": "src/scopes"
     }
   }
 }
