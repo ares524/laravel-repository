@@ -2,7 +2,6 @@
 
 namespace Leantony\Database\Extra;
 
-use App\Models\Settings;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -29,7 +28,7 @@ trait CanPaginateCollection
             $data = collect($data);
         }
         $pg = $request->get('page');
-        $perPage = !$perPage ? settings()->dataPaginationLimit : $perPage;
+        $perPage = !$perPage ? app()['config']['repository.pagination_limit'] : $perPage;
         $page = $page ? (int)$page * 1 : (isset($pg) ? (int)$request->get('page') * 1 : 1);
         $offset = ($page * $perPage) - $perPage;
 
