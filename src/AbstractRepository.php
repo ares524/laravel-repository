@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
+use Leantony\Database\Extra\BulkOperations;
 use Leantony\Database\Extra\CanPaginateCollection;
 use Leantony\Database\Extra\Query;
 use Leantony\Database\Extra\ViewUtils;
@@ -15,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 abstract class AbstractRepository
 {
-    use CanPaginateCollection, ViewUtils, Query;
+    use CanPaginateCollection, ViewUtils, Query, BulkOperations;
 
     /**
      * @var Model
@@ -26,6 +27,13 @@ abstract class AbstractRepository
      * @var Application
      */
     protected $app;
+
+    /**
+     * Default order mode
+     *
+     * @var array
+     */
+    protected $defaultOrder = ['column' => 'id', 'order' => 'asc'];
 
     /**
      * @param Application $app
@@ -166,51 +174,6 @@ abstract class AbstractRepository
     }
 
     /**
-     * Perform a bulk insert
-     * Note that this will skip all model events as it uses the DB query builder
-     *
-     * @param array $data
-     * @return bool
-     */
-    public function createMany(array $data)
-    {
-        return $this->getModel()->insert($data);
-    }
-
-    /**
-     * Update many records at once
-     *
-     * @param array $ids
-     * @param array $data
-     * @return bool
-     */
-    public function updateMany(array $ids, array $data)
-    {
-        $status = $this->getModel()->whereIn($this->getModel()->getKeyName(), $ids)->update($data);
-        if (!$status) {
-            throw new HttpException(500, 'Unable to bulk update.', null, []);
-        }
-
-        return $status;
-    }
-
-    /**
-     * Delete many records
-     *
-     * @param array $ids
-     * @return bool|null
-     */
-    public function deleteMany(array $ids)
-    {
-        $status = $this->getModel()->whereIn($this->getModel()->getKeyName(), $ids)->delete();
-        if (!$status) {
-            throw new HttpException(500, 'Unable to bulk delete.', null, []);
-        }
-
-        return $status;
-    }
-
-    /**
      * Find a model based on ID, and update it
      * If the model is an instance of Model, then we directly update
      *
@@ -331,5 +294,21 @@ abstract class AbstractRepository
     protected function getPaginationLimit()
     {
         return $this->app['config']['repository.pagination_limit'];
+    }
+
+    /**
+     * Extract sort params
+     *
+     * @param $order
+     * @return array
+     */
+    protected function extractSortValues($order)
+    {
+        if (empty($order)) {
+            $order = $this->defaultOrder;
+        }
+        $orderColumn = array_pull($order, 'column');
+        $orderType = array_pull($order, 'order');
+        return [$orderColumn, $orderType];
     }
 }

@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 trait Query
 {
-    use Sort;
-
     /**
      * Find a single record, by its primary key
      * Will throw a 404, if the record is not found, unless fail is false
@@ -22,6 +20,19 @@ trait Query
     {
         return $throwException ? $this->getModel()->findOrFail($id, $columns) : $this->findOneWithoutFail($id,
             $columns);
+    }
+
+    /**
+     * Find many records
+     * Will throw a 404, if the record is not found, unless fail is false
+     *
+     * @param $condition
+     * @param array $columns
+     * @return \Illuminate\Database\Eloquent\Collection|null
+     */
+    public function findMany($condition, $columns = ['*'])
+    {
+        return $this->where($condition)->get($columns);
     }
 
     /**
