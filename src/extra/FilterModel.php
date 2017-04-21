@@ -2,7 +2,7 @@
 
 namespace Leantony\Database\Extra;
 
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
 
 trait FilterModel
@@ -18,8 +18,8 @@ trait FilterModel
      */
     public function filter($query, $request, $params = [])
     {
-        if (!$query instanceof Builder || !$query instanceof \Illuminate\Database\Eloquent\Builder) {
-            throw new \Exception("Supply an instance of a query builder.");
+        if (!$query instanceof Builder) {
+            throw new \Exception("Supply an instance of \\Illuminate\\Database\\Eloquent\\Builder");
         }
 
         $request = filter_var($request, FILTER_SANITIZE_STRING);
