@@ -1,0 +1,18 @@
+<?php
+
+namespace {{ns}};
+
+use Leantony\Database\AbstractRepository as Repository;
+use App\Models\{{modelclass}};
+
+class {{class}} extends Repository
+{
+
+    /**
+     * Set the model instance
+     */
+    public function model()
+    {
+        return {{modelclass}}::class;
+    }
+}
