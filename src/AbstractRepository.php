@@ -83,37 +83,6 @@ abstract class AbstractRepository
     abstract public function model();
 
     /**
-     * Search a model
-     *
-     * @param bool $paginate
-     * @return Builder|LengthAwarePaginator
-     */
-    public function search($paginate = true)
-    {
-        // pass in the scope we created
-        if ($paginate) {
-            return $this->getModel()->search()->paginate($this->getPaginationLimit());
-        }
-        return $this->getModel()->search();
-    }
-
-    /**
-     * Search a model, with relationships
-     *
-     * @param array $with
-     * @param bool $paginate
-     * @return Builder|LengthAwarePaginator
-     */
-    public function searchWith(array $with, $paginate = true)
-    {
-        // pass in the scope we created
-        if (!$paginate) {
-            return $this->getModel()->search()->with($with);
-        }
-        return $this->getModel()->search()->with($with)->paginate($this->getPaginationLimit());
-    }
-
-    /**
      * Actually returns a Model, but for code hinting, we just say \Eloquent
      *
      * @return Model

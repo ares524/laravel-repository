@@ -23,6 +23,18 @@ trait Query
     }
 
     /**
+     * Quick count
+     *
+     * @param array $where
+     * @param string $columns
+     * @return int
+     */
+    public function count($where, $columns = '*')
+    {
+        return $this->query()->where($where)->count($columns);
+    }
+
+    /**
      * Find many records
      * Will throw a 404, if the record is not found, unless fail is false
      *
@@ -104,7 +116,7 @@ trait Query
     /**
      * Return paginated result set
      *
-     * @param array|\Closure $condition
+     * @param array| $condition
      * @param array $order
      * @param array $columns
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
@@ -113,10 +125,6 @@ trait Query
     {
         list($orderColumn, $orderType) = $this->extractSortValues($order);
 
-        if ($condition instanceof \Closure) {
-            return $condition($this)->orderBy($orderColumn, $orderType)
-                ->paginate($this->getPaginationLimit(), $columns);
-        }
         return $this->where($condition)->orderBy($orderColumn, $orderType)
             ->paginate($this->getPaginationLimit(), $columns);
     }
@@ -155,7 +163,7 @@ trait Query
     /**
      * Return paginated result set, including relationships
      *
-     * @param array|\Closure $condition
+     * @param array| $condition
      * @param array $with
      * @param array $order
      * @param array $columns
@@ -165,10 +173,6 @@ trait Query
     {
         list($orderColumn, $orderType) = $this->extractSortValues($order);
 
-        if ($condition instanceof \Closure) {
-            return $condition($this)->orderBy($orderColumn, $orderType)
-                ->paginate($this->getPaginationLimit(), $columns);
-        }
         return $this->with($with)->where($condition)->orderBy($orderColumn, $orderType)
             ->paginate($this->getPaginationLimit(), $columns);
     }
