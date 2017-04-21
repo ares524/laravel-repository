@@ -30,7 +30,7 @@ trait FilterModel
         }
 
         // single value
-        if (substr_count($request, '&') == 1) {
+        if (substr_count($request, '&') == 0) {
             $where = explode('=', $request);
             try {
                 $query->where($where[0], $where[1]);
@@ -50,7 +50,19 @@ trait FilterModel
 
         try {
             foreach ($params as $value) {
-                $query->where($value[0], $value[1]);
+                // relationship
+                if(str_contains($value[0], '.')){
+                    $s = explode('.', $value[0]);
+                    $relation = $s[0];
+                    $identifier = $s[1];
+                    $value = $value[1];
+
+                    $query->with([$relation => function($builder) use ($identifier, $value){
+                        $builder->where($identifier, '=', $value);
+                    }]);
+                } else {
+                    $query->where($value[0], $value[1]);
+                }
             }
         } catch (QueryException $e) {
             logger()->error($e->getMessage());
