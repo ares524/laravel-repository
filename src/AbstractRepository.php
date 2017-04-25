@@ -237,7 +237,7 @@ abstract class AbstractRepository
     /**
      * Execute a where condition query
      *
-     * @param $condition
+     * @param string|array|\Closure $condition
      * @return Builder
      */
     public function where($condition)
@@ -248,7 +248,7 @@ abstract class AbstractRepository
     /**
      * Load a model builder instance, passing in relationships
      *
-     * @param $relations
+     * @param string|array $relations
      * @return Builder
      */
     public function with($relations)
