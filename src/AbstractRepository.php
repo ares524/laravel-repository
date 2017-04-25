@@ -3,7 +3,6 @@
 namespace Leantony\Database;
 
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
@@ -239,7 +238,7 @@ abstract class AbstractRepository
      * Execute a where condition query
      *
      * @param $condition
-     * @return Model
+     * @return Builder
      */
     public function where($condition)
     {
