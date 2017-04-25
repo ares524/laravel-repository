@@ -249,7 +249,7 @@ abstract class AbstractRepository
      * Load a model builder instance, passing in relationships
      *
      * @param $relations
-     * @return Builder|Model
+     * @return Builder
      */
     public function with($relations)
     {

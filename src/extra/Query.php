@@ -14,12 +14,12 @@ trait Query
      * @param int $id
      * @param array $columns
      * @param bool $throwException
-     * @return Model|\Illuminate\Database\Eloquent\Collection
+     * @return Model
      */
     public function findOne($id, $columns = ['*'], $throwException = true)
     {
-        return $throwException ? $this->getModel()->findOrFail($id, $columns) : $this->findOneWithoutFail($id,
-            $columns);
+        return $throwException ? $this->getModel()->findOrFail($id, $columns)
+            : $this->findOneWithoutFail($id, $columns);
     }
 
     /**
@@ -87,7 +87,8 @@ trait Query
      *
      * @param $id
      * @param array $columns
-     * @return \Illuminate\Database\Eloquent\Collection|Model|null
+     * @return Model
+     * @throws ModelNotFoundException
      */
     public function findOneWithoutFail($id, $columns = ['*'])
     {
@@ -105,7 +106,7 @@ trait Query
      */
     public function queryOne(array $condition, $columns = ['*'], $throwException = true)
     {
-        $value = $this->getModel()->where($condition)->first($columns);
+        $value = $this->where($condition)->first($columns);
 
         if ($value === null && $throwException) {
             throw (new ModelNotFoundException)->setModel(get_class($this->model), $condition);
