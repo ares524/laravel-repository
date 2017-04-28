@@ -22,7 +22,7 @@ trait FilterModel
             throw new \Exception("Supply an instance of \\Illuminate\\Database\\Eloquent\\Builder");
         }
 
-        $request = filter_var($request, FILTER_SANITIZE_STRING);
+        $request = filter_var(urldecode($request), FILTER_SANITIZE_STRING);
 
         // need this in the query params
         if (!str_contains($request, '=')) {
@@ -31,14 +31,7 @@ trait FilterModel
 
         // single value
         if (substr_count($request, '&') == 0) {
-            $where = explode('=', $request);
-            try {
-                $query->where($where[0], $where[1]);
-            } catch (QueryException $e) {
-                logger()->error($e->getMessage());
-            }
-
-            return $query;
+            return $this->singleValueQuery($query, $request);
         }
 
         // concatenated query
@@ -51,19 +44,38 @@ trait FilterModel
         try {
             foreach ($params as $value) {
                 // relationship
-                if(str_contains($value[0], '.')){
-                    $s = explode('.', $value[0]);
-                    $relation = $s[0];
-                    $identifier = $s[1];
+                if (str_contains($value[0], '.')) {
+                    $arr = explode('.', $value[0]);
+                    $relation = $arr[0];
+                    $identifier = $arr[1];
                     $value = $value[1];
 
-                    $query->with([$relation => function($builder) use ($identifier, $value){
-                        $builder->where($identifier, '=', $value);
-                    }]);
+                    $query->with([
+                        $relation => function ($builder) use ($identifier, $value) {
+                            $builder->where($identifier, '=', $value);
+                        }
+                    ]);
                 } else {
                     $query->where($value[0], $value[1]);
                 }
             }
+        } catch (QueryException $e) {
+            logger()->error($e->getMessage());
+        }
+
+        return $query;
+    }
+
+    /**
+     * @param Builder $query
+     * @param $request
+     * @return mixed
+     */
+    protected function singleValueQuery($query, $request)
+    {
+        $where = explode('=', $request);
+        try {
+            $query->where($where[0], $where[1]);
         } catch (QueryException $e) {
             logger()->error($e->getMessage());
         }

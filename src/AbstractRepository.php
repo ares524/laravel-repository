@@ -18,11 +18,15 @@ abstract class AbstractRepository
     use CanPaginateCollection, ViewUtils, Query, BulkOperations;
 
     /**
+     * The model class
+     *
      * @var Model
      */
     protected $model;
 
     /**
+     * Laravel app instance
+     *
      * @var Application
      */
     protected $app;
@@ -35,6 +39,7 @@ abstract class AbstractRepository
     protected $defaultOrder = ['column' => 'id', 'order' => 'asc'];
 
     /**
+     * AbstractRepository constructor.
      * @param Application $app
      */
     public function __construct(Application $app)
