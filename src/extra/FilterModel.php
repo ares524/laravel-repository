@@ -10,8 +10,8 @@ trait FilterModel
     /**
      * Quick filter
      *
-     * @param $query
-     * @param $request
+     * @param Builder $query
+     * @param string $request
      * @param array $params
      * @return Builder
      * @throws \Exception
