@@ -3,8 +3,8 @@
 namespace Leantony\Database;
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use Leantony\Database\Extra\BulkOperations;
