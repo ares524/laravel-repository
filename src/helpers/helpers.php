@@ -1,14 +1,13 @@
 <?php
 
-namespace Leantony\Database\Extra;
-
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 
-trait CanPaginateCollection
-{
+
+if (function_exists('paginate_collection')) {
+
     /**
      * Paginates a collection.
      *
@@ -21,7 +20,7 @@ trait CanPaginateCollection
      *
      * @return LengthAwarePaginator
      */
-    public function paginateCollection($data, Request $request, $perPage = null, $page = null)
+    function paginate_collection($data, Request $request, $perPage = null, $page = null)
     {
         // force presence of a collection
         if (!$data instanceof Collection) {

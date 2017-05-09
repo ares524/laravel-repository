@@ -8,14 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use Leantony\Database\Extra\BulkOperations;
-use Leantony\Database\Extra\CanPaginateCollection;
 use Leantony\Database\Extra\Query;
 use Leantony\Database\Extra\ViewUtils;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 abstract class AbstractRepository
 {
-    use CanPaginateCollection, ViewUtils, Query, BulkOperations;
+    use ViewUtils, Query, BulkOperations;
 
     /**
      * The model class
