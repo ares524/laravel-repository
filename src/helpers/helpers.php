@@ -6,7 +6,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 
 
-if (function_exists('paginate_collection')) {
+if (!function_exists('paginate_collection')) {
 
     /**
      * Paginates a collection.

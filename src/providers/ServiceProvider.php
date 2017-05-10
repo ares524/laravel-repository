@@ -14,15 +14,17 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function boot()
     {
-        $this->loadHelpers();
-
         $this->publishes([
             __DIR__ . '/../config/repository.php' => config_path('repository.php')
         ], 'config');
+
+        $this->loadHelpers();
     }
 
     /**
-     * Load helper function files
+     * Load helper files
+     *
+     * @return void
      */
     protected function loadHelpers()
     {
