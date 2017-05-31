@@ -77,7 +77,7 @@ class GenerateRepository extends GeneratorCommand
 
         $stub = $this->replaceClass($stub, $name);
 
-        $stub = $this->replaceNamespace($stub, "App\\TenLord\\Database\\Repositories")->replaceClass($stub, $name);
+        $stub = $this->replaceNamespace($stub, "App\\Database\\Repositories")->replaceClass($stub, $name);
 
         return str_replace(
             array_keys($replace), array_values($replace), $stub
